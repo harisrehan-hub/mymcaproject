@@ -89,11 +89,14 @@ export default function App() {
   // Chatbot state
   const [userProfile, setUserProfile] = useState({
     name: "",
+    gender: "",
     nationality: "",
+    maritalStatus: "",
     age: "",
     state: "",
     income: "",
     occupation: "",
+    hasDaughter: "",
     category: "",
     disability: ""
   });
@@ -153,11 +156,14 @@ export default function App() {
   const handleRestart = () => {
     setUserProfile({
       name: "",
+      gender: "",
       nationality: "",
+      maritalStatus: "",
       age: "",
       state: "",
       income: "",
       occupation: "",
+      hasDaughter: "",
       category: "",
       disability: ""
     });
@@ -830,8 +836,16 @@ export default function App() {
                 <span className="drawer-info-value">{userProfile.name || "—"}</span>
               </div>
               <div className="drawer-info-item">
+                <span className="drawer-info-label">Gender</span>
+                <span className="drawer-info-value">{userProfile.gender || "—"}</span>
+              </div>
+              <div className="drawer-info-item">
                 <span className="drawer-info-label">Indian Citizen</span>
                 <span className="drawer-info-value">{userProfile.nationality || "—"}</span>
+              </div>
+              <div className="drawer-info-item">
+                <span className="drawer-info-label">Marital Status</span>
+                <span className="drawer-info-value">{userProfile.maritalStatus || "—"}</span>
               </div>
               <div className="drawer-info-item">
                 <span className="drawer-info-label">Age</span>
@@ -850,6 +864,10 @@ export default function App() {
               <div className="drawer-info-item">
                 <span className="drawer-info-label">Occupation</span>
                 <span className="drawer-info-value">{userProfile.occupation || "—"}</span>
+              </div>
+              <div className="drawer-info-item">
+                <span className="drawer-info-label">Has Daughter (&lt;10 yrs)</span>
+                <span className="drawer-info-value">{userProfile.hasDaughter || "—"}</span>
               </div>
               <div className="drawer-info-item">
                 <span className="drawer-info-label">Category</span>

@@ -231,6 +231,168 @@ export const SCHEMES_DATA = [
       return { eligible, reasons };
     }
   }
+  ,
+  {
+    id: "pmujjwala",
+    name: "Pradhan Mantri Ujjwala Yojana (PMUY)",
+    category: "Women & Household",
+    ministry: "Ministry of Petroleum and Natural Gas",
+    benefits: "Free LPG gas connection (cylinder + stove) to women from Below Poverty Line (BPL) households, along with a first refill at subsidized rate. Reduces indoor air pollution from cooking fires.",
+    description: "A scheme to provide clean cooking fuel (LPG) to women from BPL households, replacing the use of firewood and cow dung cakes which cause severe health hazards.",
+    applyUrl: "https://pmuy.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("This scheme specifically targets women as the primary beneficiary.");
+      } else {
+        reasons.push("You are a woman — this scheme is designed for female beneficiaries.");
+      }
+      if (profile.income > 150000) {
+        eligible = false;
+        reasons.push("Annual family income must be below ₹1,50,000 (BPL category) to qualify.");
+      } else {
+        reasons.push(`Annual income of ₹${Number(profile.income).toLocaleString('en-IN')} qualifies under the BPL threshold.`);
+      }
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "pmmvy",
+    name: "Pradhan Mantri Matru Vandana Yojana (PMMVY)",
+    category: "Women & Maternity",
+    ministry: "Ministry of Women and Child Development",
+    benefits: "Cash incentive of ₹6,000 paid in three installments to pregnant and lactating mothers for their first child, to partially compensate for wage loss during pregnancy and ensure proper health care.",
+    description: "A maternity benefit scheme for all pregnant women and lactating mothers who are 19 years of age or above, for the first child in the family. The scheme integrates with health services to encourage institutional delivery.",
+    applyUrl: "https://pmmvy.wcd.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("This maternity benefit scheme is only applicable to women.");
+      } else {
+        reasons.push("You are female, which is required for this maternity scheme.");
+      }
+      const ageNum = Number(profile.age);
+      if (ageNum < 19) {
+        eligible = false;
+        reasons.push(`Your age is ${ageNum}. The minimum age for PMMVY is 19 years.`);
+      } else {
+        reasons.push(`Your age (${ageNum}) meets the minimum age of 19 for this scheme.`);
+      }
+      if (profile.maritalStatus === "Unmarried") {
+        eligible = false;
+        reasons.push("This scheme is for married, widowed, or divorced women with a child.");
+      } else {
+        reasons.push("Your marital status is eligible for this maternity scheme.");
+      }
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "ssy",
+    name: "Sukanya Samriddhi Yojana (SSY)",
+    category: "Women & Girl Child",
+    ministry: "Ministry of Finance",
+    benefits: "High-interest savings account (8.2% per annum) for a girl child, with tax exemption under Section 80C. Deposits from ₹250 to ₹1.5 lakh per year. Matures in 21 years, helping fund the girl's higher education and marriage.",
+    description: "A government-backed small savings scheme under the 'Beti Bachao Beti Padhao' campaign, designed to encourage parents to build a secure financial future for their girl child.",
+    applyUrl: "https://www.indiapost.gov.in/Financial/Pages/Content/Sukanya-Samridhi-Account.aspx",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.hasDaughter !== "Yes") {
+        eligible = false;
+        reasons.push("This scheme is exclusively for parents or guardians who have a girl child below 10 years of age.");
+      } else {
+        reasons.push("You have a girl child and can open a Sukanya Samriddhi account in her name.");
+      }
+
+      reasons.push("Can be opened at any post office or authorized bank. The account earns 8.2% annual interest, fully tax-free.");
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "mssc",
+    name: "Mahila Samman Savings Certificate (MSSC)",
+    category: "Women & Savings",
+    ministry: "Ministry of Finance",
+    benefits: "Fixed 7.5% annual interest on deposits up to ₹2 lakh, with a partial withdrawal facility. 2-year tenure. Safe, government-backed savings option with better returns than a standard bank FD.",
+    description: "A one-time government savings scheme introduced in 2023 specifically for women and girls. Designed to promote financial independence and savings habit among Indian women.",
+    applyUrl: "https://www.indiapost.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("This savings certificate is exclusively for women and girls.");
+      } else {
+        reasons.push("You are female, making you directly eligible to open this savings account.");
+      }
+
+      reasons.push("Available at post offices and designated banks. No income limit — open to all women.");
+      reasons.push("You can invest up to ₹2,00,000 at 7.5% interest — much better than a regular FD!");
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "standupmudra",
+    name: "Stand Up India / PM MUDRA Yojana for Women",
+    category: "Women & Business",
+    ministry: "Ministry of Finance / SIDBI",
+    benefits: "Collateral-free business loans from ₹10,000 (Shishu), ₹50,000–5 lakh (Kishor), to ₹5–10 lakh (Tarun) under MUDRA. Stand Up India provides ₹10 lakh–₹1 crore for women entrepreneurs to start a new enterprise.",
+    description: "Two flagship loan schemes to empower women entrepreneurs: PM MUDRA provides micro-loans to small/home-based businesses, while Stand Up India offers larger loans specifically for SC/ST and women to start greenfield enterprises.",
+    applyUrl: "https://www.mudra.org.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("These loan schemes prioritize women, SC/ST, and minority entrepreneurs.");
+      } else {
+        reasons.push("As a woman, you are a priority applicant for MUDRA and Stand Up India loans.");
+      }
+
+      const selfOrHousewife = ["Self Employed", "Housewife", "Daily Wage Worker", "Unemployed"].includes(profile.occupation);
+      if (!selfOrHousewife) {
+        reasons.push("Note: These loans are best suited for starting or running a self-owned micro, small, or medium business.");
+      } else {
+        reasons.push(`Your occupation status as "${profile.occupation}" is ideal for applying for a MUDRA startup loan.`);
+      }
+
+      return { eligible, reasons };
+    }
+  }
 ];
 
 export const CHAT_QUESTIONS = [
@@ -246,6 +408,14 @@ export const CHAT_QUESTIONS = [
     }
   },
   {
+    id: "gender",
+    field: "gender",
+    text: "What is your **Gender**? (This helps us check eligibility for women-specific schemes 👩)",
+    inputType: "buttons",
+    options: ["Male", "Female", "Other"],
+    validate: (val) => { return null; }
+  },
+  {
     id: "nationality",
     field: "nationality",
     text: "Nice to meet you! Let's check your eligibility details. \n\nAre you an **Indian Citizen**?",
@@ -255,6 +425,14 @@ export const CHAT_QUESTIONS = [
       if (val !== "Yes" && val !== "No") return "Please select Yes or No.";
       return null;
     }
+  },
+  {
+    id: "maritalStatus",
+    field: "maritalStatus",
+    text: "What is your **Marital Status**?",
+    inputType: "buttons",
+    options: ["Married", "Unmarried", "Widowed", "Divorced"],
+    validate: (val) => { return null; }
   },
   {
     id: "age",
@@ -297,10 +475,18 @@ export const CHAT_QUESTIONS = [
     field: "occupation",
     text: "What is your primary **Occupation / Employment Status**?",
     inputType: "buttons",
-    options: ["Farmer", "Daily Wage Worker", "Self Employed", "Salaried / Govt Employee", "Student", "Unemployed"],
+    options: ["Farmer", "Daily Wage Worker", "Self Employed", "Housewife", "Salaried / Govt Employee", "Student", "Unemployed"],
     validate: (val) => {
       return null;
     }
+  },
+  {
+    id: "hasDaughter",
+    field: "hasDaughter",
+    text: "Do you have a **Daughter below 10 years** of age? (Required to check eligibility for Sukanya Samriddhi Yojana 👧)",
+    inputType: "buttons",
+    options: ["Yes", "No"],
+    validate: (val) => { return null; }
   },
   {
     id: "category",
