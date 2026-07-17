@@ -392,6 +392,175 @@ export const SCHEMES_DATA = [
 
       return { eligible, reasons };
     }
+  },
+  {
+    id: "gruhalakshmi",
+    name: "Gruha Lakshmi Scheme (Karnataka)",
+    category: "State Schemes - Women",
+    ministry: "Department of Women and Child Development, Government of Karnataka",
+    benefits: "Direct monthly financial assistance of ₹2,000 transferred into the bank account of the woman head of a household.",
+    description: "A flagship welfare scheme of the Government of Karnataka to support female heads of families, helping cover household expenses and promoting gender equality.",
+    applyUrl: "https://sevasindhu.karnataka.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.state !== "Karnataka") {
+        eligible = false;
+        reasons.push("Only residents of Karnataka are eligible for this state scheme.");
+      } else {
+        reasons.push("You are a resident of Karnataka.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("This scheme is exclusively for the woman head of the household.");
+      } else {
+        reasons.push("You are female, matching the target demographic.");
+      }
+      if (profile.income > 200000) {
+        eligible = false;
+        reasons.push("Family income exceeds ₹2,00,000/year (GST and Income Tax payers are excluded).");
+      } else {
+        reasons.push("Family income is within the eligible threshold for non-taxpaying households.");
+      }
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "gruhajyothi",
+    name: "Gruha Jyothi Scheme (Karnataka)",
+    category: "State Schemes - Electricity",
+    ministry: "Department of Energy, Government of Karnataka",
+    benefits: "Free domestic electricity supply of up to 200 units per month for all residential households in Karnataka.",
+    description: "Provides electricity bill relief to domestic consumers in Karnataka whose average consumption is less than 200 units.",
+    applyUrl: "https://sevasindhu.karnataka.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.state !== "Karnataka") {
+        eligible = false;
+        reasons.push("Only residents of Karnataka are eligible for this state scheme.");
+      } else {
+        reasons.push("You reside in Karnataka.");
+      }
+
+      reasons.push("All domestic consumers in Karnataka consuming less than 200 units are eligible.");
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "yuvanidhi",
+    name: "Yuva Nidhi Scheme (Karnataka)",
+    category: "State Schemes - Youth",
+    ministry: "Department of Skill Development, Entrepreneurship and Livelihood, Karnataka",
+    benefits: "Monthly unemployment allowance of ₹3,000 (for graduates) and ₹1,500 (for diploma holders) for up to 2 years.",
+    description: "Financial assistance for educated unemployed youth of Karnataka who completed their graduation or diploma to support their search for career opportunities.",
+    applyUrl: "https://sevasindhu.karnataka.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.state !== "Karnataka") {
+        eligible = false;
+        reasons.push("Only residents of Karnataka are eligible for this state scheme.");
+      } else {
+        reasons.push("You reside in Karnataka.");
+      }
+      const ageNum = Number(profile.age);
+      if (ageNum < 21 || ageNum > 30) {
+        eligible = false;
+        reasons.push(`Your age is ${ageNum}. This scheme is only for youth aged 21 to 30 years.`);
+      } else {
+        reasons.push("Your age is within the eligible range of 21-30 years.");
+      }
+      if (!["Unemployed", "Student"].includes(profile.occupation)) {
+        eligible = false;
+        reasons.push(`Your occupation is "${profile.occupation}". You must be unemployed to claim Yuva Nidhi.`);
+      } else {
+        reasons.push("You are registered as unemployed or studying.");
+      }
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "shakticard",
+    name: "Shakti Scheme (Karnataka)",
+    category: "State Schemes - Transport",
+    ministry: "Department of Transport, Government of Karnataka",
+    benefits: "Free travel in state-run road transport corporation buses (ordinary, express, BMTC, etc.) within Karnataka.",
+    description: "Enables free public transport for women and transgender residents of Karnataka, enhancing their access to workplaces and education.",
+    applyUrl: "https://sevasindhu.karnataka.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.state !== "Karnataka") {
+        eligible = false;
+        reasons.push("Only residents of Karnataka are eligible for this state scheme.");
+      } else {
+        reasons.push("You reside in Karnataka.");
+      }
+      if (profile.gender !== "Female") {
+        eligible = false;
+        reasons.push("This scheme is exclusively for female and transgender residents.");
+      } else {
+        reasons.push("You match the gender criteria (Female).");
+      }
+
+      return { eligible, reasons };
+    }
+  },
+  {
+    id: "annabhagya",
+    name: "Anna Bhagya Scheme (Karnataka)",
+    category: "State Schemes - Food Security",
+    ministry: "Food, Civil Supplies & Consumer Affairs Department, Karnataka",
+    benefits: "Free 10 kg food grains (or 5 kg rice + cash in lieu of the remaining 5 kg at ₹34/kg) per person per month to BPL and Antyodaya card holders.",
+    description: "Karnataka state government food security program ensuring malnutrition-free households by providing food grains or direct cash transfer.",
+    applyUrl: "https://sevasindhu.karnataka.gov.in/",
+    checkEligibility: (profile) => {
+      const reasons = [];
+      let eligible = true;
+
+      if (profile.nationality !== "Yes") {
+        eligible = false;
+        reasons.push("Only Indian citizens are eligible.");
+      }
+      if (profile.state !== "Karnataka") {
+        eligible = false;
+        reasons.push("Only residents of Karnataka are eligible for this state scheme.");
+      } else {
+        reasons.push("You reside in Karnataka.");
+      }
+      if (profile.income > 120000) {
+        eligible = false;
+        reasons.push("Family income exceeds BPL threshold (₹1,20,000/year).");
+      } else {
+        reasons.push("Family income is within the BPL threshold.");
+      }
+
+      return { eligible, reasons };
+    }
   }
 ];
 

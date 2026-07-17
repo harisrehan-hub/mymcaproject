@@ -86,6 +86,45 @@ export default function App() {
   const [activeContact, setActiveContact] = useState("schemes_bot");
   const [currentView, setCurrentView] = useState("chat"); // 'list' or 'chat' (mobile flow)
   
+  const [contacts, setContacts] = useState([
+    {
+      id: "schemes_bot",
+      name: "India Schemes Eligibility Bot 🇮🇳",
+      avatarInitials: "🇮🇳",
+      online: true,
+      lastMessage: "Click to continue checking eligibility...",
+      time: "Now",
+      unread: 0
+    },
+    {
+      id: "pm_kisan_support",
+      name: "PM-Kisan Helpline (Mock)",
+      avatarInitials: "🚜",
+      online: false,
+      lastMessage: "Dear farmer, your installment of ₹2,000 has been credited.",
+      time: "Yesterday",
+      unread: 1
+    },
+    {
+      id: "ration_card_desk",
+      name: "Ration Card Support Center",
+      avatarInitials: "🌾",
+      online: false,
+      lastMessage: "Please verify your Aadhaar linking by July 31st.",
+      time: "Monday",
+      unread: 0
+    },
+    {
+      id: "my_family",
+      name: "Family Group 👪",
+      avatarInitials: "🏡",
+      online: false,
+      lastMessage: "Papa, check eligibility for Uncle's pension here!",
+      time: "05/07/26",
+      unread: 3
+    }
+  ]);
+  
   // Chatbot state
   const [userProfile, setUserProfile] = useState({
     name: "",
@@ -185,6 +224,15 @@ export default function App() {
     }, 1000);
   };
 
+  const deleteContact = (e, contactId) => {
+    e.stopPropagation();
+    if (contactId === "schemes_bot") return;
+    setContacts(prev => prev.filter(c => c.id !== contactId));
+    if (activeContact === contactId) {
+      setActiveContact("schemes_bot");
+    }
+  };
+
   // Bot response simulator
   const triggerBotResponse = (currentProfile, nextIndex) => {
     setIsTyping(true);
@@ -192,14 +240,39 @@ export default function App() {
     setTimeout(() => {
       setIsTyping(false);
 
-      if (nextIndex < CHAT_QUESTIONS.length) {
+      // --- SMART QUESTION SKIPPING ---
+      // Skip hasDaughter question if: user is Male/Other, OR marital status is NOT Married
+      let resolvedIndex = nextIndex;
+      let resolvedProfile = { ...currentProfile };
+
+      while (resolvedIndex < CHAT_QUESTIONS.length) {
+        const q = CHAT_QUESTIONS[resolvedIndex];
+        if (q.id === "hasDaughter") {
+          const skipForGender = resolvedProfile.gender && resolvedProfile.gender !== "Female";
+          const skipForMarital = resolvedProfile.maritalStatus && resolvedProfile.maritalStatus !== "Married";
+          if (skipForGender || skipForMarital) {
+            // Auto-fill as No and skip to next
+            resolvedProfile = { ...resolvedProfile, hasDaughter: "No" };
+            resolvedIndex++;
+            continue;
+          }
+        }
+        break;
+      }
+
+      // Sync profile state if we auto-filled any skipped fields
+      if (resolvedProfile.hasDaughter !== currentProfile.hasDaughter) {
+        setUserProfile(resolvedProfile);
+      }
+
+      if (resolvedIndex < CHAT_QUESTIONS.length) {
         // Ask next question
-        const nextQ = CHAT_QUESTIONS[nextIndex];
+        const nextQ = CHAT_QUESTIONS[resolvedIndex];
         let questionText = nextQ.text;
         
         // Dynamic customization of text (e.g. including name in greeting)
         if (nextQ.id === "nationality") {
-          questionText = `Nice to meet you, **${currentProfile.name}**! Let's check your eligibility.\n\nAre you an **Indian Citizen**?`;
+          questionText = `Nice to meet you, **${resolvedProfile.name}**! Let's check your eligibility.\n\nAre you an **Indian Citizen**?`;
         }
 
         setMessages((prev) => [
@@ -208,19 +281,19 @@ export default function App() {
             id: `bot-q-${Date.now()}`,
             sender: "bot",
             type: "question",
-            questionIndex: nextIndex,
+            questionIndex: resolvedIndex,
             content: questionText,
             time: getFormattedTime()
           }
         ]);
-        setCurrentQuestionIndex(nextIndex);
+        setCurrentQuestionIndex(resolvedIndex);
       } else {
         // ALL QUESTIONS ANSWERED - EVALUATE SCHEMES
         const results = [];
         let eligibleCount = 0;
 
         SCHEMES_DATA.forEach((scheme) => {
-          const evalResult = scheme.checkEligibility(currentProfile);
+          const evalResult = scheme.checkEligibility(resolvedProfile);
           results.push({
             schemeId: scheme.id,
             name: scheme.name,
@@ -233,11 +306,11 @@ export default function App() {
         });
 
         // Add result summary text
-        const resultIntro = `Thanks, **${currentProfile.name}**! I have processed your details:\n\n` + 
-          `• Age: **${currentProfile.age}**\n` + 
-          `• Income: **₹${Number(currentProfile.income).toLocaleString('en-IN')}/yr**\n` +
-          `• State: **${currentProfile.state}**\n` +
-          `• Occupation: **${currentProfile.occupation}**\n\n` +
+        const resultIntro = `Thanks, **${resolvedProfile.name}**! I have processed your details:\n\n` + 
+          `• Age: **${resolvedProfile.age}**\n` + 
+          `• Income: **₹${Number(resolvedProfile.income).toLocaleString('en-IN')}/yr**\n` +
+          `• State: **${resolvedProfile.state}**\n` +
+          `• Occupation: **${resolvedProfile.occupation}**\n\n` +
           `🔍 I found **${eligibleCount} government schemes** that you qualify for! Click on any scheme below to view benefits, qualifying criteria, and apply.`;
 
         setMessages((prev) => [
@@ -383,48 +456,6 @@ export default function App() {
       });
     }
   };
-
-  // Contacts lists for aesthetic WhatsApp appearance
-  const contacts = [
-    {
-      id: "schemes_bot",
-      name: "India Schemes Eligibility Bot 🇮🇳",
-      avatarInitials: "🇮🇳",
-      online: true,
-      lastMessage: currentQuestionIndex < CHAT_QUESTIONS.length 
-        ? "Click to continue checking eligibility..." 
-        : "Eligibility evaluation complete!",
-      time: "Now",
-      unread: 0
-    },
-    {
-      id: "pm_kisan_support",
-      name: "PM-Kisan Helpline (Mock)",
-      avatarInitials: "🚜",
-      online: false,
-      lastMessage: "Dear farmer, your installment of ₹2,000 has been credited.",
-      time: "Yesterday",
-      unread: 1
-    },
-    {
-      id: "ration_card_desk",
-      name: "Ration Card Support Center",
-      avatarInitials: "🌾",
-      online: false,
-      lastMessage: "Please verify your Aadhaar linking by July 31st.",
-      time: "Monday",
-      unread: 0
-    },
-    {
-      id: "my_family",
-      name: "Family Group 👪",
-      avatarInitials: "🏡",
-      online: false,
-      lastMessage: "Papa, check eligibility for Uncle's pension here!",
-      time: "05/07/26",
-      unread: 3
-    }
-  ];
 
   // Render chatbot messages correctly
   const renderMessageContent = (msg) => {
@@ -644,12 +675,45 @@ export default function App() {
               <div className="chat-item-details">
                 <div className="chat-item-header">
                   <span className="chat-item-name">{contact.name}</span>
-                  <span className="chat-item-time">{contact.time}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span className="chat-item-time">{contact.time}</span>
+                    {contact.id !== "schemes_bot" && (
+                      <button 
+                        className="delete-chat-btn"
+                        onClick={(e) => deleteContact(e, contact.id)}
+                        title="Delete chat"
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--text-secondary)',
+                          cursor: 'pointer',
+                          fontSize: '15px',
+                          padding: '2px 6px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          opacity: 0.5,
+                          transition: 'opacity 0.2s, background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.opacity = '1';
+                          e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.08)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.opacity = '0.5';
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="chat-item-message-row">
                   <span className="chat-item-preview">
                     {contact.id === "schemes_bot" && currentQuestionIndex < CHAT_QUESTIONS.length
-                      ? contacts[0].lastMessage 
+                      ? "Click to continue checking eligibility..." 
                       : contact.lastMessage
                     }
                   </span>
