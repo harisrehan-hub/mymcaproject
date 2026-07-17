@@ -134,6 +134,8 @@ export default function App() {
     age: "",
     state: "",
     income: "",
+    ownsFourWheeler: "",
+    govtEmployeeOrTaxpayer: "",
     occupation: "",
     hasDaughter: "",
     category: "",
@@ -201,6 +203,8 @@ export default function App() {
       age: "",
       state: "",
       income: "",
+      ownsFourWheeler: "",
+      govtEmployeeOrTaxpayer: "",
       occupation: "",
       hasDaughter: "",
       category: "",
@@ -924,6 +928,14 @@ export default function App() {
                 <span className="drawer-info-value">
                   {userProfile.income ? `₹${Number(userProfile.income).toLocaleString('en-IN')}` : "—"}
                 </span>
+              </div>
+              <div className="drawer-info-item">
+                <span className="drawer-info-label">Owns 4-Wheeler</span>
+                <span className="drawer-info-value">{userProfile.ownsFourWheeler || "—"}</span>
+              </div>
+              <div className="drawer-info-item">
+                <span className="drawer-info-label">Govt Job / Taxpayer</span>
+                <span className="drawer-info-value">{userProfile.govtEmployeeOrTaxpayer || "—"}</span>
               </div>
               <div className="drawer-info-item">
                 <span className="drawer-info-label">Occupation</span>

@@ -33,6 +33,18 @@ export const SCHEMES_DATA = [
       } else {
         reasons.push(`Annual income of ₹${Number(profile.income).toLocaleString('en-IN')} is within the low-income threshold for food security support.`);
       }
+      if (profile.ownsFourWheeler === "Yes") {
+        eligible = false;
+        reasons.push("Households owning a four-wheeler (car/jeep) are excluded from BPL/AAY Ration Cards.");
+      } else {
+        reasons.push("No four-wheeler ownership reported.");
+      }
+      if (profile.govtEmployeeOrTaxpayer === "Yes") {
+        eligible = false;
+        reasons.push("Households with government employees or income tax payers are excluded from BPL/AAY Ration Cards.");
+      } else {
+        reasons.push("No family member is a government employee or income tax payer.");
+      }
 
       return { eligible, reasons };
     }
@@ -558,6 +570,18 @@ export const SCHEMES_DATA = [
       } else {
         reasons.push("Family income is within the BPL threshold.");
       }
+      if (profile.ownsFourWheeler === "Yes") {
+        eligible = false;
+        reasons.push("Households owning a four-wheeler (car/jeep) are excluded from BPL card benefits.");
+      } else {
+        reasons.push("No four-wheeler ownership reported.");
+      }
+      if (profile.govtEmployeeOrTaxpayer === "Yes") {
+        eligible = false;
+        reasons.push("Households with government employees or income tax payers are excluded from BPL card benefits.");
+      } else {
+        reasons.push("No family member is a government employee or income tax payer.");
+      }
 
       return { eligible, reasons };
     }
@@ -579,7 +603,7 @@ export const CHAT_QUESTIONS = [
   {
     id: "gender",
     field: "gender",
-    text: "What is your **Gender**? (This helps us check eligibility for women-specific schemes 👩)",
+    text: "What is your **Gender**?",
     inputType: "buttons",
     options: ["Male", "Female", "Other"],
     validate: (val) => { return null; }
@@ -638,6 +662,22 @@ export const CHAT_QUESTIONS = [
       if (isNaN(num) || num < 0) return "Please enter a valid non-negative income amount.";
       return null;
     }
+  },
+  {
+    id: "ownsFourWheeler",
+    field: "ownsFourWheeler",
+    text: "Do you or your family members own a **Four-Wheeler** (Car/Jeep/SUV)?",
+    inputType: "buttons",
+    options: ["Yes", "No"],
+    validate: (val) => { return null; }
+  },
+  {
+    id: "govtEmployeeOrTaxpayer",
+    field: "govtEmployeeOrTaxpayer",
+    text: "Does anyone in your family hold a **Government Job** or pay **Income Tax**?",
+    inputType: "buttons",
+    options: ["Yes", "No"],
+    validate: (val) => { return null; }
   },
   {
     id: "occupation",
