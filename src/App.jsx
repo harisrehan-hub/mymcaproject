@@ -309,6 +309,17 @@ export default function App() {
           if (evalResult.eligible) eligibleCount++;
         });
 
+        // Sort results: Eligible first, Ineligible second; prioritize Ration Card (pmgkay) to the top of its group
+        results.sort((a, b) => {
+          if (a.eligible && !b.eligible) return -1;
+          if (!a.eligible && b.eligible) return 1;
+          
+          if (a.schemeId === "pmgkay") return -1;
+          if (b.schemeId === "pmgkay") return 1;
+          
+          return 0;
+        });
+
         // Add result summary text
         const resultIntro = `Thanks, **${resolvedProfile.name}**! I have processed your details:\n\n` + 
           `• Age: **${resolvedProfile.age}**\n` + 
