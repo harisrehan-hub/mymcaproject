@@ -1,4 +1,4 @@
-// src/data/schemes.js
+﻿// src/data/schemes.js
 
 export const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", 
@@ -1111,41 +1111,41 @@ export const CHAT_QUESTIONS = [
     id: "welcome",
     field: "welcome",
     text: {
-      en: "👋 Namaste! Welcome to the India Schemes Eligibility Bot 🇮🇳.\n\nI will help you check your eligibility for various central and state government schemes! Let's get started.",
-      hi: "👋 नमस्ते! भारत योजना पात्रता बॉट 🇮🇳 में आपका स्वागत है।\n\nमैं आपको विभिन्न केंद्र और राज्य सरकार की योजनाओं के लिए अपनी पात्रता की जांच करने में मदद करूंगा! आइए शुरू करते हैं।",
-      kn: "👋 ನಮಸ್ತೆ! ಭಾರತ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಅರ್ಹತಾ ಪರಿಶೀಲನಾ ಬಾಟ್‌ಗೆ 🇮🇳 ನಿಮಗೆ ಸುಸ್ವಾಗತ.\n\nವಿವಿಧ ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಸರ್ಕಾರದ ಯೋಜನೆಗಳಿಗೆ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ! ಬನ್ನಿ ಪ್ರಾರಂಭಿಸೋಣ."
+      en: "Namaste! Welcome to the India Schemes Eligibility Bot.\n\nI will help you check your eligibility for various central and state government schemes. Let's get started.",
+      hi: "Namaste! Bharat Yojana Patrata Bot mein aapka swagat hai.\n\nMain aapko vibhinn kendra aur rajya sarkar ki yojanaon ke liye patrata ki janch karne mein madad karunga. Shuru karte hain.",
+      kn: "Namaste! Bharata Sarkari Yojane Arhataa Parisheelanaa Baatge nimage suswagata.\n\nVividha kendra mattu rajya sarkarada yojanekaLige nimma arhateyanu parisheelisamlani sahaaya maaDuttene. Praarambhisoona."
     },
     inputType: "buttons",
     options: {
-      en: [{ label: "Start / शुरू करें / ಪ್ರಾರಂಭಿಸಿ ➡️", value: "start" }],
-      hi: [{ label: "Start / शुरू करें / ಪ್ರಾರಂಭಿಸಿ ➡️", value: "start" }],
-      kn: [{ label: "Start / शुरू करें / ಪ್ರಾರಂಭಿಸಿ ➡️", value: "start" }]
+      en: [{ label: "Start", value: "start" }],
+      hi: [{ label: "Shuru Karen", value: "start" }],
+      kn: [{ label: "Praarambhisi", value: "start" }]
     }
   },
   {
     id: "language",
     field: "language",
     text: {
-      en: "🌍 Please select your preferred language:\n\n🌍 कृपया अपनी पसंदीदा भाषा चुनें:\n\n🌍 ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
-      hi: "🌍 Please select your preferred language:\n\n🌍 कृपया अपनी पसंदीदा भाषा चुनें:\n\n🌍 ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
-      kn: "🌍 Please select your preferred language:\n\n🌍 कृपया अपनी पसंदीदा भाषा चुनें:\n\n🌍 ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:"
+      en: "Please select your preferred language:\n\nà¤•à¥ƒà¤ªà¤¯à¤¾ à¤…à¤ªà¤¨à¥€ à¤ªà¤¸à¤‚à¤¦à¥€à¤¦à¤¾ à¤­à¤¾à¤·à¤¾ à¤šà¥à¤¨à¥‡à¤‚:\n\nà²¦à²¯à²µà²¿à²Ÿà³à²Ÿà³ à²¨à²¿à²®à³à²® à²†à²¦à³à²¯à²¤à³†à²¯ à²­à²¾à²·à³†à²¯à²¨à³à²¨à³ à²†à²¯à³à²•à³†à²®à²¾à²¡à²¿:",
+      hi: "Please select your preferred language:\n\nà¤•à¥ƒà¤ªà¤¯à¤¾ à¤…à¤ªà¤¨à¥€ à¤ªà¤¸à¤‚à¤¦à¥€à¤¦à¤¾ à¤­à¤¾à¤·à¤¾ à¤šà¥à¤¨à¥‡à¤‚:\n\nà²¦à²¯à²µà²¿à²Ÿà³à²Ÿà³ à²¨à²¿à²®à³à²® à²†à²¦à³à²¯à²¤à³†à²¯ à²­à²¾à²·à³†à²¯à²¨à³à²¨à³ à²†à²¯à³à²•à³†à²®à²¾à²¡à²¿:",
+      kn: "Please select your preferred language:\n\nà¤•à¥ƒà¤ªà¤¯à¤¾ à¤…à¤ªà¤¨à¥€ à¤ªà¤¸à¤‚à¤¦à¥€à¤¦à¤¾ à¤­à¤¾à¤·à¤¾ à¤šà¥à¤¨à¥‡à¤‚:\n\nà²¦à²¯à²µà²¿à²Ÿà³à²Ÿà³ à²¨à²¿à²®à³à²® à²†à²¦à³à²¯à²¤à³†à²¯ à²­à²¾à²·à³†à²¯à²¨à³à²¨à³ à²†à²¯à³à²•à³†à²®à²¾à²¡à²¿:"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "English 🇬🇧", value: "en" },
-        { label: "हिन्दी 🇮🇳", value: "hi" },
-        { label: "ಕನ್ನಡ  Karnataka 💛❤️", value: "kn" }
+        { label: "English", value: "en" },
+        { label: "à¤¹à¤¿à¤¨à¥à¤¦à¥€", value: "hi" },
+        { label: "à²•à²¨à³à²¨à²¡", value: "kn" }
       ],
       hi: [
-        { label: "English 🇬🇧", value: "en" },
-        { label: "हिन्दी 🇮🇳", value: "hi" },
-        { label: "ಕನ್ನಡ  Karnataka 💛❤️", value: "kn" }
+        { label: "English", value: "en" },
+        { label: "à¤¹à¤¿à¤¨à¥à¤¦à¥€", value: "hi" },
+        { label: "à²•à²¨à³à²¨à²¡", value: "kn" }
       ],
       kn: [
-        { label: "English 🇬🇧", value: "en" },
-        { label: "हिन्दी 🇮🇳", value: "hi" },
-        { label: "ಕನ್ನಡ  Karnataka 💛❤️", value: "kn" }
+        { label: "English", value: "en" },
+        { label: "à¤¹à¤¿à¤¨à¥à¤¦à¥€", value: "hi" },
+        { label: "à²•à²¨à³à²¨à²¡", value: "kn" }
       ]
     }
   },
@@ -1153,16 +1153,16 @@ export const CHAT_QUESTIONS = [
     id: "name",
     field: "name",
     text: {
-      en: "What is your **Full Name**? 👤",
-      hi: "आपका **पूरा नाम** क्या है? 👤",
-      kn: "ನಿಮ್ಮ **ಪೂರ್ಣ ಹೆಸರು** ಏನು? 👤"
+      en: "What is your Full Name?",
+      hi: "Aapka poora naam kya hai?",
+      kn: "Nimmaa pUrNa hesaru enu?"
     },
     inputType: "text",
     placeholder: "Type your name...",
     validate: (val, lang = "en") => {
       if (!val || val.trim().length < 2) {
-        if (lang === "hi") return "कृपया एक मान्य नाम दर्ज करें (कम से कम 2 अक्षर)।";
-        if (lang === "kn") return "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಹೆಸರನ್ನು ನಮೂದಿಸಿ (ಕನಿಷ್ಠ 2 ಅಕ್ಷರಗಳು).";
+        if (lang === "hi") return "Kripaya ek valid naam darj karein (kam se kam 2 akshar).";
+        if (lang === "kn") return "Dayavittu valid hesarannu namoUdisi (kanishtha 2 aksharaLu).";
         return "Please enter a valid name (at least 2 characters).";
       }
       return null;
@@ -1172,26 +1172,26 @@ export const CHAT_QUESTIONS = [
     id: "gender",
     field: "gender",
     text: {
-      en: "What is your **Gender**? 🚻",
-      hi: "आपका **लिंग (Gender)** क्या है? 🚻",
-      kn: "ನಿಮ್ಮ **ಲಿಂಗ (Gender)** ಏನು? 🚻"
+      en: "What is your Gender?",
+      hi: "Aapka ling (Gender) kya hai?",
+      kn: "Nimma linga (Gender) enu?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Male 👨", value: "Male" },
-        { label: "Female 👩", value: "Female" },
-        { label: "Other ⚧️", value: "Other" }
+        { label: "Male", value: "Male" },
+        { label: "Female", value: "Female" },
+        { label: "Other", value: "Other" }
       ],
       hi: [
-        { label: "पुरुष 👨", value: "Male" },
-        { label: "महिला 👩", value: "Female" },
-        { label: "अन्य ⚧️", value: "Other" }
+        { label: "Purush", value: "Male" },
+        { label: "Mahila", value: "Female" },
+        { label: "Anya", value: "Other" }
       ],
       kn: [
-        { label: "ಪುರುಷ 👨", value: "Male" },
-        { label: "ಮಹಿಳೆ 👩", value: "Female" },
-        { label: "ಇತರ ⚧️", value: "Other" }
+        { label: "Purusha", value: "Male" },
+        { label: "Mahile", value: "Female" },
+        { label: "Itara", value: "Other" }
       ]
     }
   },
@@ -1199,23 +1199,23 @@ export const CHAT_QUESTIONS = [
     id: "nationality",
     field: "nationality",
     text: {
-      en: "Are you an **Indian Citizen**? 🇮🇳",
-      hi: "क्या आप एक **भारतीय नागरिक** हैं? 🇮🇳",
-      kn: "ನೀವು **ಭಾರತೀಯ ನಾಗರಿಕರು** ಹೌದೇ? 🇮🇳"
+      en: "Are you an Indian Citizen?",
+      hi: "Kya aap ek Bharatiya Nagrik hain?",
+      kn: "Neevu Bharatiya Nagarikaraada?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Yes ✅", value: "Yes" },
-        { label: "No ❌", value: "No" }
+        { label: "Yes", value: "Yes" },
+        { label: "No", value: "No" }
       ],
       hi: [
-        { label: "हाँ ✅", value: "Yes" },
-        { label: "नहीं ❌", value: "No" }
+        { label: "Haan", value: "Yes" },
+        { label: "Nahin", value: "No" }
       ],
       kn: [
-        { label: "ಹೌದು ✅", value: "Yes" },
-        { label: "ಇಲ್ಲ ❌", value: "No" }
+        { label: "Houdu", value: "Yes" },
+        { label: "Illa", value: "No" }
       ]
     }
   },
@@ -1223,29 +1223,29 @@ export const CHAT_QUESTIONS = [
     id: "maritalStatus",
     field: "maritalStatus",
     text: {
-      en: "What is your **Marital Status**? 💍",
-      hi: "आपकी **वैवाहिक स्थिति** क्या है? 💍",
-      kn: "ನಿಮ್ಮ **ವೈವಾಹಿಕ ಸ್ಥಿತಿ** ಏನು? 💍"
+      en: "What is your Marital Status?",
+      hi: "Aapki vaivahik sthiti kya hai?",
+      kn: "Nimma vaivahika sthiti enu?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Married 💍", value: "Married" },
-        { label: "Unmarried 👤", value: "Unmarried" },
-        { label: "Widowed 🕯️", value: "Widowed" },
-        { label: "Divorced 📄", value: "Divorced" }
+        { label: "Married", value: "Married" },
+        { label: "Unmarried", value: "Unmarried" },
+        { label: "Widowed", value: "Widowed" },
+        { label: "Divorced", value: "Divorced" }
       ],
       hi: [
-        { label: "विवाहित 💍", value: "Married" },
-        { label: "अविवाहित 👤", value: "Unmarried" },
-        { label: "विधवा 🕯️", value: "Widowed" },
-        { label: "तलाकशुदा 📄", value: "Divorced" }
+        { label: "Vivahit", value: "Married" },
+        { label: "Avivahit", value: "Unmarried" },
+        { label: "Vidhva", value: "Widowed" },
+        { label: "Talakshuda", value: "Divorced" }
       ],
       kn: [
-        { label: "ವಿವಾಹಿತ 💍", value: "Married" },
-        { label: "ಅವಿವಾಹಿತ 👤", value: "Unmarried" },
-        { label: "ವಿಧವೆ 🕯️", value: "Widowed" },
-        { label: "ವಿಚ್ಛೇದಿತ 📄", value: "Divorced" }
+        { label: "Vivahita", value: "Married" },
+        { label: "Avivahita", value: "Unmarried" },
+        { label: "Vidhave", value: "Widowed" },
+        { label: "Vichheddita", value: "Divorced" }
       ]
     }
   },
@@ -1253,17 +1253,17 @@ export const CHAT_QUESTIONS = [
     id: "age",
     field: "age",
     text: {
-      en: "How old are you? Please enter your **Age** in years. 🎂",
-      hi: "आपकी उम्र क्या है? कृपया अपनी **आयु** वर्षों में दर्ज करें। 🎂",
-      kn: "ನಿಮ್ಮ ವಯಸ್ಸು ಎಷ್ಟು? ದಯವಿಟ್ಟು ನಿಮ್ಮ **ವಯಸ್ಸನ್ನು** ವರ್ಷಗಳಲ್ಲಿ ನಮೂದಿಸಿ. 🎂"
+      en: "How old are you? Please enter your Age in years.",
+      hi: "Aapki umra kya hai? Kripaya apni aayu varsho mein darj karein.",
+      kn: "Nimma vayassu eshtu? Dayavittu nimma vayasannu varshaLalli namoUdisi."
     },
     inputType: "number",
     placeholder: "e.g., 28",
     validate: (val, lang = "en") => {
       const num = Number(val);
       if (isNaN(num) || num <= 0 || num > 120) {
-        if (lang === "hi") return "कृपया 1 और 120 के बीच एक वैध आयु दर्ज करें।";
-        if (lang === "kn") return "ದಯವಿಟ್ಟು 1 ರಿಂದ 120 ರ ನಡುವಿನ ಮಾನ್ಯ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ.";
+        if (lang === "hi") return "Kripaya 1 aur 120 ke beech ek valid aayu darj karein.";
+        if (lang === "kn") return "Dayavittu 1 rinda 120 ra naduvina valid vayasannu namoUdisi.";
         return "Please enter a valid age between 1 and 120.";
       }
       return null;
@@ -1273,17 +1273,17 @@ export const CHAT_QUESTIONS = [
     id: "state",
     field: "state",
     text: {
-      en: "Which **State or Union Territory** do you reside in? 🗺️",
-      hi: "आप किस **राज्य या केंद्र शासित प्रदेश** में रहते हैं? 🗺️",
-      kn: "ನೀವು ಯಾವ **ರಾಜ್ಯ ಅಥವಾ ಕೇಂದ್ರಾಡಳಿತ ಪ್ರದೇಶದಲ್ಲಿ** ವಾಸಿಸುತ್ತೀರಿ? 🗺️"
+      en: "Which State or Union Territory do you reside in?",
+      hi: "Aap kis Rajya ya Kendra Shasit Pradesh mein rehte hain?",
+      kn: "Neevu yaaVa Rajya athavaa Kendraadaashita Pradeshalli vaasisutteeraaa?"
     },
     inputType: "select",
     options: INDIAN_STATES,
     placeholder: "Select your state...",
     validate: (val, lang = "en") => {
       if (!INDIAN_STATES.includes(val)) {
-        if (lang === "hi") return "कृपया सूची में से एक वैध राज्य चुनें।";
-        if (lang === "kn") return "ದಯವಿಟ್ಟು ಪಟ್ಟಿಯಿಂದ ಮಾನ್ಯವಾದ ರಾಜ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ.";
+        if (lang === "hi") return "Kripaya suchi mein se ek valid rajya chunein.";
+        if (lang === "kn") return "Dayavittu paTTiyinda valid raajyavannu aayke maaDi.";
         return "Please select a valid state from the list.";
       }
       return null;
@@ -1293,17 +1293,17 @@ export const CHAT_QUESTIONS = [
     id: "income",
     field: "income",
     text: {
-      en: "What is your **Annual Family Income** (in Rupees)? 💰",
-      hi: "आपकी **वार्षिक पारिवारिक आय** (रुपये में) कितनी है? 💰",
-      kn: "ನಿಮ್ಮ **ವಾರ್ಷಿಕ ಕೌಟುಂಬಿಕ ಆದಾಯ** (ರೂಪಾಯಿಗಳಲ್ಲಿ) ಎಷ್ಟು? 💰"
+      en: "What is your Annual Family Income (in Rupees)?",
+      hi: "Aapki varshik parivarik aay (rupaye mein) kitni hai?",
+      kn: "Nimma vaershika kauTumbika aadaaya (rupaayigaLalli) eshtu?"
     },
     inputType: "number",
     placeholder: "e.g., 150000",
     validate: (val, lang = "en") => {
       const num = Number(val);
       if (isNaN(num) || num < 0) {
-        if (lang === "hi") return "कृपया एक वैध गैर-नकारात्मक आय राशि दर्ज करें।";
-        if (lang === "kn") return "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಆದಾಯದ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿ.";
+        if (lang === "hi") return "Kripaya ek valid non-negative aay rashi darj karein.";
+        if (lang === "kn") return "Dayavittu valid aadaayada moTTavannu namoUdisi.";
         return "Please enter a valid non-negative income amount.";
       }
       return null;
@@ -1313,23 +1313,23 @@ export const CHAT_QUESTIONS = [
     id: "ownsFourWheeler",
     field: "ownsFourWheeler",
     text: {
-      en: "Do you or your family members own a **Four-Wheeler** (Car/Jeep/SUV)? 🚗",
-      hi: "क्या आपके या आपके परिवार के पास कोई **चार पहिया वाहन** (कार/जीप/एसयूवी) है? 🚗",
-      kn: "ನೀವು ಅಥವಾ ನಿಮ್ಮಸಿಬ್ಬಂದಿ **ನಾಲ್ಕು ಚಕ್ರಗಳ ವಾಹನ** (ಕಾರ್/ಜೀಪ್/ಎಸ್‌ಯುವಿ) ಹೊಂದಿದ್ದೀರಾ? 🚗"
+      en: "Do you or your family members own a Four-Wheeler (Car / Jeep / SUV)?",
+      hi: "Kya aapke ya aapke parivaar ke paas koi char pahiya vaahan (Car / Jeep / SUV) hai?",
+      kn: "Neevu athavaa nimma kuTumba naalku cakrakaLa vaahana (Car / Jeep / SUV) hondiddeeraaa?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Yes ✅", value: "Yes" },
-        { label: "No ❌", value: "No" }
+        { label: "Yes", value: "Yes" },
+        { label: "No", value: "No" }
       ],
       hi: [
-        { label: "हाँ ✅", value: "Yes" },
-        { label: "नहीं ❌", value: "No" }
+        { label: "Haan", value: "Yes" },
+        { label: "Nahin", value: "No" }
       ],
       kn: [
-        { label: "ಹೌದು ✅", value: "Yes" },
-        { label: "ಇಲ್ಲ ❌", value: "No" }
+        { label: "Houdu", value: "Yes" },
+        { label: "Illa", value: "No" }
       ]
     }
   },
@@ -1337,23 +1337,23 @@ export const CHAT_QUESTIONS = [
     id: "govtEmployeeOrTaxpayer",
     field: "govtEmployeeOrTaxpayer",
     text: {
-      en: "Does anyone in your family hold a **Government Job** or pay **Income Tax**? 💼",
-      hi: "क्या आपके परिवार में कोई **सरकारी नौकरी** करता है या **आयकर (Income Tax)** देता है? 💼",
-      kn: "ನಿಮ್ಮ ಕುಟುಂಬದಲ್ಲಿ ಯಾರಾದರೂ **ಸರ್ಕಾರಿ ಕೆಲಸ** ಹೊಂದಿದ್ದಾರೆಯೇ ಅಥವಾ **ಆದಾಯ ತೆರಿಗೆ** ಪಾವತಿಸುತ್ತಾರೆಯೇ? 💼"
+      en: "Does anyone in your family hold a Government Job or pay Income Tax?",
+      hi: "Kya aapke parivaar mein koi Sarkari Naukri karta hai ya Aaykar (Income Tax) deta hai?",
+      kn: "Nimma kuTumbadalli yaraadaru Sarkari Kelasa hondiddaare yaa Aadaaya Terige paavisuttaare?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Yes ✅", value: "Yes" },
-        { label: "No ❌", value: "No" }
+        { label: "Yes", value: "Yes" },
+        { label: "No", value: "No" }
       ],
       hi: [
-        { label: "हाँ ✅", value: "Yes" },
-        { label: "नहीं ❌", value: "No" }
+        { label: "Haan", value: "Yes" },
+        { label: "Nahin", value: "No" }
       ],
       kn: [
-        { label: "ಹೌದು ✅", value: "Yes" },
-        { label: "ಇಲ್ಲ ❌", value: "No" }
+        { label: "Houdu", value: "Yes" },
+        { label: "Illa", value: "No" }
       ]
     }
   },
@@ -1361,38 +1361,38 @@ export const CHAT_QUESTIONS = [
     id: "occupation",
     field: "occupation",
     text: {
-      en: "What is your primary **Occupation / Employment Status**? 🛠️",
-      hi: "आपका प्राथमिक **व्यवसाय / रोजगार की स्थिति** क्या है? 🛠️",
-      kn: "ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ **ಉದ್ಯೋಗ / ಉದ್ಯೋಗದ ಸ್ಥಿತಿ** ಏನು? 🛠️"
+      en: "What is your primary Occupation / Employment Status?",
+      hi: "Aapka prathamik vyavsay / rozgaar ki sthiti kya hai?",
+      kn: "Nimma praathamika udyoga / udyogada sthiti enu?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Farmer 🚜", value: "Farmer" },
-        { label: "Daily Wage Worker 🛠️", value: "Daily Wage Worker" },
-        { label: "Self Employed 💼", value: "Self Employed" },
-        { label: "Housewife 🏡", value: "Housewife" },
-        { label: "Salaried / Govt Employee 👔", value: "Salaried / Govt Employee" },
-        { label: "Student 📚", value: "Student" },
-        { label: "Unemployed 👤", value: "Unemployed" }
+        { label: "Farmer", value: "Farmer" },
+        { label: "Daily Wage Worker", value: "Daily Wage Worker" },
+        { label: "Self Employed", value: "Self Employed" },
+        { label: "Housewife", value: "Housewife" },
+        { label: "Salaried / Govt Employee", value: "Salaried / Govt Employee" },
+        { label: "Student", value: "Student" },
+        { label: "Unemployed", value: "Unemployed" }
       ],
       hi: [
-        { label: "किसान 🚜", value: "Farmer" },
-        { label: "दैनिक मजदूर 🛠️", value: "Daily Wage Worker" },
-        { label: "स्व-नियोजित 💼", value: "Self Employed" },
-        { label: "गृहणी 🏡", value: "Housewife" },
-        { label: "वेतनभोगी / सरकारी नौकरी 👔", value: "Salaried / Govt Employee" },
-        { label: "छात्र 📚", value: "Student" },
-        { label: "बेरोजगार 👤", value: "Unemployed" }
+        { label: "Kisaan", value: "Farmer" },
+        { label: "Dainik Mazdoor", value: "Daily Wage Worker" },
+        { label: "Swa-Niyojit", value: "Self Employed" },
+        { label: "Grihani", value: "Housewife" },
+        { label: "Vetanabhogi / Sarkari Naukri", value: "Salaried / Govt Employee" },
+        { label: "Chaatra", value: "Student" },
+        { label: "Berozgaar", value: "Unemployed" }
       ],
       kn: [
-        { label: "ರೈತ 🚜", value: "Farmer" },
-        { label: "ದೈನಂದಿನ ಕೂಲಿ 🛠️", value: "Daily Wage Worker" },
-        { label: "ಸ್ವಯಂ ಉದ್ಯೋಗಿ 💼", value: "Self Employed" },
-        { label: "ಗೃಹಿಣಿ 🏡", value: "Housewife" },
-        { label: "ಸಂಬಳ ಪಡೆಯುವ / ಸರ್ಕಾರಿ ನೌಕರ 👔", value: "Salaried / Govt Employee" },
-        { label: "ವಿದ್ಯಾರ್ಥಿ 📚", value: "Student" },
-        { label: "ನಿರುದ್ಯೋಗಿ 👤", value: "Unemployed" }
+        { label: "Raita", value: "Farmer" },
+        { label: "Dainadina KoUli", value: "Daily Wage Worker" },
+        { label: "Swayam Udyogi", value: "Self Employed" },
+        { label: "Gruhini", value: "Housewife" },
+        { label: "Sambala Padeyuva / Sarkari Naukara", value: "Salaried / Govt Employee" },
+        { label: "Vidyaarthi", value: "Student" },
+        { label: "Nirudyogi", value: "Unemployed" }
       ]
     }
   },
@@ -1400,23 +1400,23 @@ export const CHAT_QUESTIONS = [
     id: "hasDaughter",
     field: "hasDaughter",
     text: {
-      en: "Do you have a **Daughter below 10 years** of age? 👧",
-      hi: "क्या आपकी **10 वर्ष से कम उम्र की बेटी** है? 👧",
-      kn: "ನಿಮಗೆ **10 ವರ್ಷಕ್ಕಿಂತ ಕಡಿಮೆ ವಯಸ್ಸಿನ ಮಗಳು** ಇದ್ದಾರೆಯೇ? 👧"
+      en: "Do you have a Daughter below 10 years of age?",
+      hi: "Kya aapki 10 varsh se kam umra ki beti hai?",
+      kn: "Nimage 10 varshakainta Kadime vayasina magaLu iddaareye?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Yes ✅", value: "Yes" },
-        { label: "No ❌", value: "No" }
+        { label: "Yes", value: "Yes" },
+        { label: "No", value: "No" }
       ],
       hi: [
-        { label: "हाँ ✅", value: "Yes" },
-        { label: "नहीं ❌", value: "No" }
+        { label: "Haan", value: "Yes" },
+        { label: "Nahin", value: "No" }
       ],
       kn: [
-        { label: "ಹೌದು ✅", value: "Yes" },
-        { label: "ಇಲ್ಲ ❌", value: "No" }
+        { label: "Houdu", value: "Yes" },
+        { label: "Illa", value: "No" }
       ]
     }
   },
@@ -1424,29 +1424,29 @@ export const CHAT_QUESTIONS = [
     id: "category",
     field: "category",
     text: {
-      en: "What **Social Category** do you belong to? 👥",
-      hi: "आप किस **सामाजिक श्रेणी (Category)** से संबंधित हैं? 👥",
-      kn: "ನೀವು ಯಾವ **ಸಾಮಾಜಿಕ ವರ್ಗಕ್ಕೆ (Category)** ಸೇರಿದವರಾಗಿದ್ದೀರಿ? 👥"
+      en: "What Social Category do you belong to?",
+      hi: "Aap kis samajik shreni (Category) se sambandhit hain?",
+      kn: "Neevu yaaVa saamaajika vargakke (Category) seridavaragiddeeraaa?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "General 👥", value: "General" },
-        { label: "OBC 👥", value: "OBC" },
-        { label: "SC 👥", value: "SC" },
-        { label: "ST 👥", value: "ST" }
+        { label: "General", value: "General" },
+        { label: "OBC", value: "OBC" },
+        { label: "SC", value: "SC" },
+        { label: "ST", value: "ST" }
       ],
       hi: [
-        { label: "सामान्य 👥", value: "General" },
-        { label: "ओबीसी 👥", value: "OBC" },
-        { label: "एससी 👥", value: "SC" },
-        { label: "एसटी 👥", value: "ST" }
+        { label: "Saamaanya", value: "General" },
+        { label: "OBC", value: "OBC" },
+        { label: "SC", value: "SC" },
+        { label: "ST", value: "ST" }
       ],
       kn: [
-        { label: "ಸಾಮಾನ್ಯ 👥", value: "General" },
-        { label: "ಒಬಿಸಿ 👥", value: "OBC" },
-        { label: "ಎಸ್ಸಿ 👥", value: "SC" },
-        { label: "ಎಸ್ಟಿ 👥", value: "ST" }
+        { label: "Saamaanya", value: "General" },
+        { label: "OBC", value: "OBC" },
+        { label: "SC", value: "SC" },
+        { label: "ST", value: "ST" }
       ]
     }
   },
@@ -1454,23 +1454,23 @@ export const CHAT_QUESTIONS = [
     id: "disability",
     field: "disability",
     text: {
-      en: "Are you **Differently Abled (Divyangjan)**? ♿",
-      hi: "क्या आप **दिव्यांग (Differently Abled)** हैं? ♿",
-      kn: "ನೀವು **ವಿಕಲಚೇತನರು (Differently Abled)** ಹೌದೇ? ♿"
+      en: "Are you Differently Abled (Divyangjan)?",
+      hi: "Kya aap Divyang (Differently Abled) hain?",
+      kn: "Neevu Vikalachetanaru (Differently Abled) houdeye?"
     },
     inputType: "buttons",
     options: {
       en: [
-        { label: "Yes ✅", value: "Yes" },
-        { label: "No ❌", value: "No" }
+        { label: "Yes", value: "Yes" },
+        { label: "No", value: "No" }
       ],
       hi: [
-        { label: "हाँ ✅", value: "Yes" },
-        { label: "नहीं ❌", value: "No" }
+        { label: "Haan", value: "Yes" },
+        { label: "Nahin", value: "No" }
       ],
       kn: [
-        { label: "ಹೌದು ✅", value: "Yes" },
-        { label: "ಇಲ್ಲ ❌", value: "No" }
+        { label: "Houdu", value: "Yes" },
+        { label: "Illa", value: "No" }
       ]
     }
   }

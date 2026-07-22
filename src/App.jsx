@@ -151,6 +151,8 @@ export default function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [showRightDrawer, setShowRightDrawer] = useState(true);
   const [selectedScheme, setSelectedScheme] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const inputRef = useRef(null);
   
   // Reference for message scrolling
   const messagesEndRef = useRef(null);
@@ -929,15 +931,66 @@ export default function App() {
           {/* Quick replies & dropdown select selectors inside active chat viewport */}
           {renderInputHelper()}
 
+          {/* EMOJI PICKER PANEL */}
+          {showEmojiPicker && (
+            <div className="emoji-picker-panel">
+              <div className="emoji-picker-header">
+                <span>Emojis</span>
+                <button className="emoji-close-btn" onClick={() => setShowEmojiPicker(false)}>✕</button>
+              </div>
+              <div className="emoji-grid">
+                {[
+                  "😀","😁","😂","🤣","😃","😄","😅","😆","😇","😈",
+                  "😉","😊","😋","😌","😍","🥰","😘","😗","😙","😚",
+                  "🙂","🤗","🤩","🤔","🤨","😐","😑","😶","🙄","😏",
+                  "😣","😥","😮","🤐","😯","😪","😫","🥱","😴","😌",
+                  "😛","😜","😝","🤤","😒","😓","😔","😕","🙃","🤑",
+                  "😲","☹️","🙁","😖","😞","😟","😤","😢","😭","😦",
+                  "😧","😨","😩","🤯","😬","😰","😱","🥵","🥶","😳",
+                  "🤪","😵","😡","😠","🤬","😷","🤒","🤕","🤢","🤮",
+                  "🤧","🥴","😇","🥳","🥺","🤠","🤡","🤥","🤫","🤭",
+                  "👋","🤚","🖐️","✋","🖖","👌","🤌","✌️","🤞","🤟",
+                  "🤘","🤙","👈","👉","👆","☝️","👇","👍","👎","✊",
+                  "👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","✍️",
+                  "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔",
+                  "❣️","💕","💞","💓","💗","💖","💘","💝","💟","☮️",
+                  "✨","💫","⭐","🌟","🌈","🌊","🌸","🌺","🍀","🌹",
+                  "🎉","🎊","🎈","🎁","🏆","🥇","🎯","🎮","🃏","🎲",
+                  "🙄","😤","🤦","🤷","💁","🙆","🙅","🙋","🙍","🙎",
+                  "🏠","🚗","✈️","📱","💻","📖","📝","🔑","💡","💰",
+                  "🍕","🍔","🍜","🍛","🥗","🍱","🍣","🍦","🎂","🍩"
+                ].map((emoji) => (
+                  <button
+                    key={emoji}
+                    className="emoji-btn"
+                    onClick={() => {
+                      setInputText(prev => prev + emoji);
+                      inputRef.current?.focus();
+                    }}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Chat text input box at the bottom */}
           <footer className="chat-input-bar">
             <div className="chat-input-actions">
-              <button className="icon-btn" title="Add Emoticon"><Icons.Emoticon /></button>
+              <button 
+                className={`icon-btn ${showEmojiPicker ? 'active-icon' : ''}`} 
+                title="Add Emoji"
+                onClick={() => setShowEmojiPicker(prev => !prev)}
+              >
+                <Icons.Emoticon />
+              </button>
               <button className="icon-btn" title="Attach Document/Media"><Icons.Attach /></button>
             </div>
 
             <div className="chat-input-form">
               <input 
+                ref={inputRef}
                 type={
                   activeContact === "schemes_bot" && currentQuestionIndex < CHAT_QUESTIONS.length && CHAT_QUESTIONS[currentQuestionIndex].inputType === "number"
                     ? "number"
