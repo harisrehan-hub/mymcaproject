@@ -125,6 +125,8 @@ export default function App() {
     }
   ]);
   
+  const [language, setLanguage] = useState("en");
+
   // Chatbot state
   const [userProfile, setUserProfile] = useState({
     name: "",
@@ -139,7 +141,8 @@ export default function App() {
     occupation: "",
     hasDaughter: "",
     category: "",
-    disability: ""
+    disability: "",
+    language: "en"
   });
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -161,7 +164,7 @@ export default function App() {
         id: "greet-1",
         sender: "bot",
         type: "text",
-        content: firstQuestion.text,
+        content: firstQuestion.text.en,
         time: getFormattedTime()
       }
     ]);
@@ -195,6 +198,7 @@ export default function App() {
 
   // Restart Chat flow
   const handleRestart = () => {
+    setLanguage("en");
     setUserProfile({
       name: "",
       gender: "",
@@ -208,7 +212,8 @@ export default function App() {
       occupation: "",
       hasDaughter: "",
       category: "",
-      disability: ""
+      disability: "",
+      language: "en"
     });
     setCurrentQuestionIndex(0);
     const firstQuestion = CHAT_QUESTIONS[0];
@@ -221,7 +226,7 @@ export default function App() {
           id: `restart-${Date.now()}`,
           sender: "bot",
           type: "text",
-          content: "Re-initializing... Let's start over!\n\n" + firstQuestion.text,
+          content: firstQuestion.text.en,
           time: getFormattedTime()
         }
       ]);
@@ -243,6 +248,8 @@ export default function App() {
 
     setTimeout(() => {
       setIsTyping(false);
+
+      const activeLang = currentProfile.language || "en";
 
       // --- SMART QUESTION SKIPPING ---
       // Skip hasDaughter question if: user is Male/Other, OR marital status is NOT Married
@@ -272,11 +279,17 @@ export default function App() {
       if (resolvedIndex < CHAT_QUESTIONS.length) {
         // Ask next question
         const nextQ = CHAT_QUESTIONS[resolvedIndex];
-        let questionText = nextQ.text;
+        let questionText = typeof nextQ.text === "object" ? nextQ.text[activeLang] : nextQ.text;
         
         // Dynamic customization of text (e.g. including name in greeting)
         if (nextQ.id === "nationality") {
-          questionText = `Nice to meet you, **${resolvedProfile.name}**! Let's check your eligibility.\n\nAre you an **Indian Citizen**?`;
+          if (activeLang === "hi") {
+            questionText = `आपसे मिलकर खुशी हुई, **${resolvedProfile.name}**! आइए आपकी पात्रता की जांच करें।\n\nक्या आप एक **भारतीय नागरिक** हैं? 🇮🇳`;
+          } else if (activeLang === "kn") {
+            questionText = `ನಿಮ್ಮನ್ನು ಭೇಟಿಯಾಗಲು ಸಂತೋಷವಾಗಿದೆ, **${resolvedProfile.name}**! ಬನ್ನಿ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸೋಣ.\n\nನೀವು **ಭಾರತೀಯ ನಾಗರಿಕರು** ಹೌದೇ? 🇮🇳`;
+          } else {
+            questionText = `Nice to meet you, **${resolvedProfile.name}**! Let's check your eligibility.\n\nAre you an **Indian Citizen**? 🇮🇳`;
+          }
         }
 
         setMessages((prev) => [
@@ -297,12 +310,12 @@ export default function App() {
         let eligibleCount = 0;
 
         SCHEMES_DATA.forEach((scheme) => {
-          const evalResult = scheme.checkEligibility(resolvedProfile);
+          const evalResult = scheme.checkEligibility(resolvedProfile, activeLang);
           results.push({
             schemeId: scheme.id,
-            name: scheme.name,
-            category: scheme.category,
-            ministry: scheme.ministry,
+            name: scheme.name[activeLang] || scheme.name.en || scheme.name,
+            category: scheme.category[activeLang] || scheme.category.en || scheme.category,
+            ministry: scheme.ministry[activeLang] || scheme.ministry.en || scheme.ministry,
             eligible: evalResult.eligible,
             reasons: evalResult.reasons
           });
@@ -321,12 +334,33 @@ export default function App() {
         });
 
         // Add result summary text
-        const resultIntro = `Thanks, **${resolvedProfile.name}**! I have processed your details:\n\n` + 
-          `• Age: **${resolvedProfile.age}**\n` + 
-          `• Income: **₹${Number(resolvedProfile.income).toLocaleString('en-IN')}/yr**\n` +
-          `• State: **${resolvedProfile.state}**\n` +
-          `• Occupation: **${resolvedProfile.occupation}**\n\n` +
-          `🔍 I found **${eligibleCount} government schemes** that you qualify for! Click on any scheme below to view benefits, qualifying criteria, and apply.`;
+        let resultIntro = "";
+        if (activeLang === "hi") {
+          resultIntro = `धन्यवाद, **${resolvedProfile.name}**! मैंने आपके विवरणों को प्रोसेस कर लिया है:\n\n` + 
+            `• आयु: **${resolvedProfile.age} वर्ष**\n` + 
+            `• वार्षिक आय: **₹${Number(resolvedProfile.income).toLocaleString('en-IN')}/वर्ष**\n` +
+            `• राज्य: **${resolvedProfile.state}**\n` +
+            `• व्यवसाय: **${resolvedProfile.occupation}**\n\n` +
+            `🔍 मुझे **${eligibleCount} सरकारी योजनाएं** मिली हैं जिनके लिए आप पात्र हैं! लाभ, योग्यता मानदंड और ऑनलाइन आवेदन करने के लिए नीचे किसी भी योजना पर क्लिक करें।`;
+        } else if (activeLang === "kn") {
+          resultIntro = `ಧನ್ಯವಾದಗಳು, **${resolvedProfile.name}**! ನಿಮ್ಮ ವಿವರಗಳನ್ನು ನಾನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಿದ್ದೇನೆ:\n\n` + 
+            `• ವಯಸ್ಸು: **${resolvedProfile.age} ವರ್ಷಗಳು**\n` + 
+            `• ಆದಾಯ: **₹${Number(resolvedProfile.income).toLocaleString('en-IN')}/ವರ್ಷ**\n` +
+            `• ರಾಜ್ಯ: **${resolvedProfile.state}**\n` +
+            `• ಉದ್ಯೋಗ: **${resolvedProfile.occupation}**\n\n` +
+            `🔍 ನೀವು ಅರ್ಹತೆ ಹೊಂದಿರುವ **${eligibleCount} ಸರ್ಕಾರಿ ಯೋಜನೆಗಳನ್ನು** ನಾನು ಕಂಡುಕೊಂಡಿದ್ದೇನೆ! ಪ್ರಯೋಜನಗಳು, ಅರ್ಹತಾ ಮಾನದಂಡಗಳು ಮತ್ತು ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಕೆಳಗಿನ ಯಾವುದೇ ಯೋಜನೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.`;
+        } else {
+          resultIntro = `Thanks, **${resolvedProfile.name}**! I have processed your details:\n\n` + 
+            `• Age: **${resolvedProfile.age}**\n` + 
+            `• Income: **₹${Number(resolvedProfile.income).toLocaleString('en-IN')}/yr**\n` +
+            `• State: **${resolvedProfile.state}**\n` +
+            `• Occupation: **${resolvedProfile.occupation}**\n\n` +
+            `🔍 I found **${eligibleCount} government schemes** that you qualify for! Click on any scheme below to view benefits, qualifying criteria, and apply.`;
+        }
+
+        let restartText = "Would you like to check eligibility for someone else?";
+        if (activeLang === "hi") restartText = "क्या आप किसी अन्य व्यक्ति की पात्रता की जांच करना चाहते हैं?";
+        if (activeLang === "kn") restartText = "ನೀವು ಬೇರೆ ಯಾರಿಗಾದರೂ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ಬಯಸುವಿರಾ?";
 
         setMessages((prev) => [
           ...prev,
@@ -348,7 +382,7 @@ export default function App() {
             id: `bot-restart-${Date.now()}`,
             sender: "bot",
             type: "restart_prompt",
-            content: "Would you like to check eligibility for someone else?",
+            content: restartText,
             time: getFormattedTime()
           }
         ]);
@@ -358,14 +392,15 @@ export default function App() {
   };
 
   // Submit current step answer
-  const handleAnswerSubmit = (value) => {
-    if (!value || value.toString().trim() === "") return;
+  const handleAnswerSubmit = (value, displayLabel = null) => {
+    if (value === undefined || value === null || value.toString().trim() === "") return;
 
     const currentQ = CHAT_QUESTIONS[currentQuestionIndex];
+    const activeLang = userProfile.language || "en";
     
     // Validate
     if (currentQ.validate) {
-      const error = currentQ.validate(value);
+      const error = currentQ.validate(value, activeLang);
       if (error) {
         // Send a validation warning from bot
         setMessages((prev) => [
@@ -374,7 +409,7 @@ export default function App() {
             id: `user-err-${Date.now()}`,
             sender: "user",
             type: "text",
-            content: value.toString(),
+            content: displayLabel || value.toString(),
             time: getFormattedTime()
           },
           {
@@ -394,6 +429,13 @@ export default function App() {
       ...userProfile,
       [currentQ.field]: value
     };
+
+    // If changing language, record to React state immediately
+    if (currentQ.id === "language") {
+      setLanguage(value);
+      updatedProfile.language = value;
+    }
+
     setUserProfile(updatedProfile);
 
     // Add user answer message
@@ -403,7 +445,7 @@ export default function App() {
         id: `user-ans-${Date.now()}`,
         sender: "user",
         type: "text",
-        content: value.toString(),
+        content: displayLabel || value.toString(),
         time: getFormattedTime()
       }
     ]);
@@ -415,13 +457,21 @@ export default function App() {
       setIsTyping(true);
       setTimeout(() => {
         setIsTyping(false);
+        const resolvedLang = updatedProfile.language || "en";
+        let noticeText = "⚠️ **Important Notice**\nMost welfare schemes in this checker require Indian citizenship. If you proceed, you will likely appear ineligible for all schemes. Do you want to continue?";
+        if (resolvedLang === "hi") {
+          noticeText = "⚠️ **महत्वपूर्ण सूचना**\nइस चेकर की अधिकांश कल्याणकारी योजनाओं के लिए भारतीय नागरिकता आवश्यक है। यदि आप आगे बढ़ते हैं, तो आप संभवतः सभी योजनाओं के लिए अपात्र दिखाई देंगे। क्या आप जारी रखना चाहते हैं?";
+        } else if (resolvedLang === "kn") {
+          noticeText = "⚠️ **ಪ್ರಮುಖ ಸೂಚನೆ**\nಈ ಅರ್ಹತಾ ಪರಿಶೀಲಕದಲ್ಲಿನ ಹೆಚ್ಚಿನ ಕಲ್ಯಾಣ ಯೋಜನೆಗಳಿಗೆ ಭಾರತೀಯ ಪೌರತ್ವದ ಅಗತ್ಯವಿದೆ. ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಯೋಜನೆಗಳಿಗೆ ಅನರ್ಹರಾಗಿ ಕಾಣಿಸಿಕೊಳ್ಳಬಹುದು. ಮುಂದುವರಿಯಲು ಬಯಸುವಿರಾ?";
+        }
+
         setMessages((prev) => [
           ...prev,
           {
             id: `bot-nonindian-${Date.now()}`,
             sender: "bot",
             type: "text",
-            content: "⚠️ **Important Notice**\nMost welfare schemes in this checker require Indian citizenship. If you proceed, you will likely appear ineligible for all schemes. Do you want to continue?",
+            content: noticeText,
             time: getFormattedTime()
           },
           {
@@ -509,25 +559,39 @@ export default function App() {
     }
 
     if (msg.type === "confirm_nationality_flow") {
+      let yesLabel = "Yes, Continue Eligibility Check";
+      let noLabel = "No, Restart Chat";
+      if (language === "hi") {
+        yesLabel = "हाँ, पात्रता जाँच जारी रखें";
+        noLabel = "नहीं, चैट रीस्टार्ट करें";
+      } else if (language === "kn") {
+        yesLabel = "ಹೌದು, ಅರ್ಹತಾ ಪರಿಶೀಲನೆ ಮುಂದುವರಿಸಿ";
+        noLabel = "ಇಲ್ಲ, ಚಾಟ್ ಮರುಪ್ರಾರಂಭಿಸಿ";
+      }
+
       return (
         <div className="quick-replies-container">
           <button 
             className="quick-reply-btn"
             onClick={() => handleConfirmNonIndianFlow(true)}
           >
-            Yes, Continue Eligibility Check
+            {yesLabel}
           </button>
           <button 
             className="quick-reply-btn"
             onClick={() => handleConfirmNonIndianFlow(false)}
           >
-            No, Restart Chat
+            {noLabel}
           </button>
         </div>
       );
     }
 
     if (msg.type === "restart_prompt") {
+      let restartLabel = "🔄 Start New Check";
+      if (language === "hi") restartLabel = "🔄 नई जाँच शुरू करें";
+      else if (language === "kn") restartLabel = "🔄 ಹೊಸ ಪರಿಶೀಲನೆ ಪ್ರಾರಂಭಿಸಿ";
+
       return (
         <div className="message-content">
           <p style={{marginBottom: '10px'}}>{msg.content}</p>
@@ -537,7 +601,7 @@ export default function App() {
               onClick={handleRestart}
               style={{borderColor: 'var(--accent-color)', fontWeight: '600'}}
             >
-              🔄 Start New Check
+              {restartLabel}
             </button>
           </div>
         </div>
@@ -545,11 +609,21 @@ export default function App() {
     }
 
     if (msg.type === "results") {
+      let headerText = "Eligibility Results";
+      let subText = "Tap to view details";
+      if (language === "hi") {
+        headerText = "पात्रता परिणाम";
+        subText = "विवरण देखने के लिए टैप करें";
+      } else if (language === "kn") {
+        headerText = "ಅರ್ಹತೆಯ ಫಲಿತಾಂಶಗಳು";
+        subText = "ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ";
+      }
+
       return (
         <div className="eligibility-results-card">
           <div className="results-header">
-            <span>Eligibility Results</span>
-            <span style={{fontSize: '11px', color: 'var(--text-secondary)'}}>Tap to view details</span>
+            <span>{headerText}</span>
+            <span style={{fontSize: '11px', color: 'var(--text-secondary)'}}>{subText}</span>
           </div>
           
           <div className="results-body">
@@ -564,7 +638,10 @@ export default function App() {
                   <div className="scheme-dept">{res.ministry}</div>
                 </div>
                 <div className={`status-badge ${res.eligible ? "eligible" : "ineligible"}`}>
-                  {res.eligible ? "Eligible" : "Ineligible"}
+                  {res.eligible 
+                    ? (language === 'hi' ? 'पात्र' : language === 'kn' ? 'ಅರ್ಹರು' : 'Eligible') 
+                    : (language === 'hi' ? 'अपात्र' : language === 'kn' ? 'ಅನರ್ಹರು' : 'Ineligible')
+                  }
                 </div>
               </div>
             ))}
@@ -584,15 +661,16 @@ export default function App() {
     const currentQ = CHAT_QUESTIONS[currentQuestionIndex];
 
     if (currentQ.inputType === "buttons") {
+      const opts = currentQ.options[language] || [];
       return (
         <div className="quick-replies-container" style={{padding: '10px 5%', backgroundColor: 'transparent', zIndex: 11}}>
-          {currentQ.options.map((opt) => (
+          {opts.map((opt) => (
             <button 
-              key={opt}
+              key={opt.value}
               className="quick-reply-btn"
-              onClick={() => handleAnswerSubmit(opt)}
+              onClick={() => handleAnswerSubmit(opt.value, opt.label)}
             >
-              {opt}
+              {opt.label}
             </button>
           ))}
         </div>
@@ -600,11 +678,21 @@ export default function App() {
     }
 
     if (currentQ.inputType === "select") {
+      let selectLabel = "Choose Residency:";
+      let defaultSelectOption = "-- Select State --";
+      if (language === "hi") {
+        selectLabel = "निवास स्थान चुनें:";
+        defaultSelectOption = "-- राज्य चुनें --";
+      } else if (language === "kn") {
+        selectLabel = "ನಿವಾಸ ಸ್ಥಾನವನ್ನು ಆಯ್ಕೆಮಾಡಿ:";
+        defaultSelectOption = "-- ರಾಜ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ --";
+      }
+
       return (
         <div style={{padding: '10px 5%', zIndex: 11}}>
           <div className="chat-select-wrapper">
             <label style={{fontSize: '11px', fontWeight: 'bold', color: 'var(--text-secondary)'}}>
-              Choose Residency:
+              {selectLabel}
             </label>
             <select 
               id="state-select"
@@ -616,7 +704,7 @@ export default function App() {
                 }
               }}
             >
-              <option value="" disabled>-- Select State --</option>
+              <option value="" disabled>{defaultSelectOption}</option>
               {currentQ.options.map((st) => (
                 <option key={st} value={st}>{st}</option>
               ))}
@@ -857,8 +945,9 @@ export default function App() {
                 }
                 placeholder={
                   activeContact === "schemes_bot" && currentQuestionIndex < CHAT_QUESTIONS.length
-                    ? CHAT_QUESTIONS[currentQuestionIndex].placeholder || "Type a message..."
-                    : "Type a message..."
+                    ? CHAT_QUESTIONS[currentQuestionIndex].placeholder 
+                      || (language === "hi" ? "यहाँ टाइप करें..." : language === "kn" ? "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..." : "Type a message...")
+                    : (language === "hi" ? "यहाँ टाइप करें..." : language === "kn" ? "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..." : "Type a message...")
                 } 
                 className="chat-input-box" 
                 value={inputText}
@@ -900,69 +989,114 @@ export default function App() {
         <aside className="right-drawer">
           <header className="drawer-header">
             <button className="icon-btn" onClick={() => setShowRightDrawer(false)} title="Close Sidebar">✕</button>
-            <div className="drawer-title">Bot Info & Summary</div>
+            <div className="drawer-title">
+              {language === 'hi' ? 'बॉट जानकारी और सारांश' : language === 'kn' ? 'ಬಾಟ್ ಮಾಹಿತಿ ಮತ್ತು ಸಾರಾಂಶ' : 'Bot Info & Summary'}
+            </div>
           </header>
           <div className="drawer-body">
             <div className="avatar-initials" style={{width: '90px', height: '90px', fontSize: '36px', background: 'linear-gradient(135deg, #00a884, #008069)'}}>🇮🇳</div>
             <div className="drawer-profile-title">India Schemes Bot</div>
-            <div className="drawer-profile-subtitle">Official Eligibility Assistant</div>
+            <div className="drawer-profile-subtitle">
+              {language === 'hi' ? 'आधिकारिक पात्रता सहायक' : language === 'kn' ? 'ಅಧಿಕೃತ ಅರ್ಹತಾ ಸಹಾಯಕ' : 'Official Eligibility Assistant'}
+            </div>
             
             <div className="drawer-info-group">
-              <h4 style={{fontSize: '12px', fontWeight: '700', color: 'var(--accent-color)', marginBottom: '4px'}}>Real-time Profile Summary</h4>
+              <h4 style={{fontSize: '12px', fontWeight: '700', color: 'var(--accent-color)', marginBottom: '4px'}}>
+                {language === 'hi' ? 'वास्तविक समय प्रोफ़ाइल सारांश' : language === 'kn' ? 'ನೈಜ-ಸಮಯದ ಪ್ರೊಫೈಲ್ ಸಾರಾಂಶ' : 'Real-time Profile Summary'}
+              </h4>
               
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Name</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'नाम' : language === 'kn' ? 'ಹೆಸರು' : 'Name'}</span>
                 <span className="drawer-info-value">{userProfile.name || "—"}</span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Gender</span>
-                <span className="drawer-info-value">{userProfile.gender || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'लिंग' : language === 'kn' ? 'ಲಿಂಗ' : 'Gender'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.gender === "Male" ? (language === 'hi' ? 'पुरुष 👨' : language === 'kn' ? 'ಪುರುಷ 👨' : 'Male 👨') :
+                   userProfile.gender === "Female" ? (language === 'hi' ? 'महिला 👩' : language === 'kn' ? 'ಮಹಿಳೆ 👩' : 'Female 👩') :
+                   userProfile.gender === "Other" ? (language === 'hi' ? 'अन्य ⚧️' : language === 'kn' ? 'ಇತರ ⚧️' : 'Other ⚧️') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Indian Citizen</span>
-                <span className="drawer-info-value">{userProfile.nationality || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'भारतीय नागरिक' : language === 'kn' ? 'ಭಾರತೀಯ ನಾಗರಿಕ' : 'Indian Citizen'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.nationality === "Yes" ? (language === 'hi' ? 'हाँ ✅' : language === 'kn' ? 'ಹೌದು ✅' : 'Yes ✅') :
+                   userProfile.nationality === "No" ? (language === 'hi' ? 'नहीं ❌' : language === 'kn' ? 'ಇಲ್ಲ ❌' : 'No ❌') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Marital Status</span>
-                <span className="drawer-info-value">{userProfile.maritalStatus || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'वैवाहिक स्थिति' : language === 'kn' ? 'ವೈವಾಹಿಕ ಸ್ಥಿತಿ' : 'Marital Status'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.maritalStatus === "Married" ? (language === 'hi' ? 'विवाहित 💍' : language === 'kn' ? 'ವಿವಾಹಿತ 💍' : 'Married 💍') :
+                   userProfile.maritalStatus === "Unmarried" ? (language === 'hi' ? 'अविवाहित 👤' : language === 'kn' ? 'ಅವಿವಾಹಿತ 👤' : 'Unmarried 👤') :
+                   userProfile.maritalStatus === "Widowed" ? (language === 'hi' ? 'विधवा 🕯️' : language === 'kn' ? 'ವಿಧವೆ 🕯️' : 'Widowed 🕯️') :
+                   userProfile.maritalStatus === "Divorced" ? (language === 'hi' ? 'तलाकशुदा 📄' : language === 'kn' ? 'ವಿಚ್ಛೇದಿತ 📄' : 'Divorced 📄') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Age</span>
-                <span className="drawer-info-value">{userProfile.age ? `${userProfile.age} Years` : "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'आयु' : language === 'kn' ? 'ವಯಸ್ಸು' : 'Age'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.age ? `${userProfile.age} ${language === 'hi' ? 'वर्ष' : language === 'kn' ? 'ವರ್ಷಗಳು' : 'Years'}` : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">State</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'राज्य' : language === 'kn' ? 'ರಾಜ್ಯ' : 'State'}</span>
                 <span className="drawer-info-value">{userProfile.state || "—"}</span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Annual Income</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'वार्षिक आय' : language === 'kn' ? 'ವಾರ್ಷಿಕ ಆದಾಯ' : 'Annual Income'}</span>
                 <span className="drawer-info-value">
                   {userProfile.income ? `₹${Number(userProfile.income).toLocaleString('en-IN')}` : "—"}
                 </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Owns 4-Wheeler</span>
-                <span className="drawer-info-value">{userProfile.ownsFourWheeler || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? '4-पहिया वाहन है' : language === 'kn' ? 'ನಾಲ್ಕು ಚಕ್ರದ ವಾಹನ' : 'Owns 4-Wheeler'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.ownsFourWheeler === "Yes" ? (language === 'hi' ? 'हाँ ✅' : language === 'kn' ? 'ಹೌದು ✅' : 'Yes ✅') :
+                   userProfile.ownsFourWheeler === "No" ? (language === 'hi' ? 'नहीं ❌' : language === 'kn' ? 'ಇಲ್ಲ ❌' : 'No ❌') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Govt Job / Taxpayer</span>
-                <span className="drawer-info-value">{userProfile.govtEmployeeOrTaxpayer || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'सरकारी नौकरी / करदाता' : language === 'kn' ? 'ಸರ್ಕಾರಿ ಕೆಲಸ / ತೆರಿಗೆದಾರ' : 'Govt Job / Taxpayer'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.govtEmployeeOrTaxpayer === "Yes" ? (language === 'hi' ? 'हाँ ✅' : language === 'kn' ? 'ಹೌದು ✅' : 'Yes ✅') :
+                   userProfile.govtEmployeeOrTaxpayer === "No" ? (language === 'hi' ? 'नहीं ❌' : language === 'kn' ? 'ಇಲ್ಲ ❌' : 'No ❌') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Occupation</span>
-                <span className="drawer-info-value">{userProfile.occupation || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'व्यवसाय' : language === 'kn' ? 'ಉದ್ಯೋಗ' : 'Occupation'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.occupation === "Farmer" ? (language === 'hi' ? 'किसान 🚜' : language === 'kn' ? 'ರೈತ 🚜' : 'Farmer 🚜') :
+                   userProfile.occupation === "Daily Wage Worker" ? (language === 'hi' ? 'दैनिक मजदूर 🛠️' : language === 'kn' ? 'ದೈನಂದಿನ ಕೂಲಿ 🛠️' : 'Daily Wage Worker 🛠️') :
+                   userProfile.occupation === "Self Employed" ? (language === 'hi' ? 'स्व-नियोजित 💼' : language === 'kn' ? 'ಸ್ವಯಂ ಉದ್ಯೋಗಿ 💼' : 'Self Employed 💼') :
+                   userProfile.occupation === "Housewife" ? (language === 'hi' ? 'गृहणी 🏡' : language === 'kn' ? 'ಗೃಹಿಣಿ 🏡' : 'Housewife 🏡') :
+                   userProfile.occupation === "Salaried / Govt Employee" ? (language === 'hi' ? 'वेतनभोगी / सरकारी नौकरी 👔' : language === 'kn' ? 'ಸಂಬಳ ಪಡೆಯುವ / ಸರ್ಕಾರಿ ನೌಕರ 👔' : 'Salaried / Govt Employee 👔') :
+                   userProfile.occupation === "Student" ? (language === 'hi' ? 'छात्र 📚' : language === 'kn' ? 'ವಿದ್ಯಾರ್ಥಿ 📚' : 'Student 📚') :
+                   userProfile.occupation === "Unemployed" ? (language === 'hi' ? 'बेरोजगार 👤' : language === 'kn' ? 'ನಿರುದ್ಯೋಗಿ 👤' : 'Unemployed 👤') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Has Daughter (&lt;10 yrs)</span>
-                <span className="drawer-info-value">{userProfile.hasDaughter || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'बेटी है (<10 वर्ष)' : language === 'kn' ? 'ಮಗಳು ಇದ್ದಾರೆಯೇ (<10 ವರ್ಷ)' : 'Has Daughter (<10 yrs)'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.hasDaughter === "Yes" ? (language === 'hi' ? 'हाँ ✅' : language === 'kn' ? 'ಹೌದು ✅' : 'Yes ✅') :
+                   userProfile.hasDaughter === "No" ? (language === 'hi' ? 'नहीं ❌' : language === 'kn' ? 'ಇಲ್ಲ ❌' : 'No ❌') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Category</span>
-                <span className="drawer-info-value">{userProfile.category || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'सामाजिक श्रेणी' : language === 'kn' ? 'ಸಾಮಾಜಿಕ ವರ್ಗ' : 'Category'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.category === "General" ? (language === 'hi' ? 'सामान्य 👥' : language === 'kn' ? 'ಸಾಮಾನ್ಯ 👥' : 'General 👥') :
+                   userProfile.category === "OBC" ? (language === 'hi' ? 'ओबीसी 👥' : language === 'kn' ? 'ಒಬಿಸಿ 👥' : 'OBC 👥') :
+                   userProfile.category === "SC" ? (language === 'hi' ? 'एससी 👥' : language === 'kn' ? 'ಎಸ್ಸಿ 👥' : 'SC 👥') :
+                   userProfile.category === "ST" ? (language === 'hi' ? 'एसटी 👥' : language === 'kn' ? 'ಎಸ್ಟಿ 👥' : 'ST 👥') : "—"}
+                </span>
               </div>
               <div className="drawer-info-item">
-                <span className="drawer-info-label">Differently Abled</span>
-                <span className="drawer-info-value">{userProfile.disability || "—"}</span>
+                <span className="drawer-info-label">{language === 'hi' ? 'दिव्यांग' : language === 'kn' ? 'ವಿಕಲಚೇತನರು' : 'Differently Abled'}</span>
+                <span className="drawer-info-value">
+                  {userProfile.disability === "Yes" ? (language === 'hi' ? 'हाँ ✅' : language === 'kn' ? 'ಹೌದು ✅' : 'Yes ✅') :
+                   userProfile.disability === "No" ? (language === 'hi' ? 'नहीं ❌' : language === 'kn' ? 'ಇಲ್ಲ ❌' : 'No ❌') : "—"}
+                </span>
               </div>
             </div>
           </div>
@@ -974,37 +1108,47 @@ export default function App() {
         <div className="modal-overlay" onClick={() => setSelectedScheme(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <header className="modal-header">
-              <h3 className="modal-title">{selectedScheme.name}</h3>
+              <h3 className="modal-title">{selectedScheme.name[language] || selectedScheme.name}</h3>
               <button className="close-modal-btn" onClick={() => setSelectedScheme(null)}>✕</button>
             </header>
             
             <div className="modal-body">
               <div className="modal-section">
-                <span className="modal-section-title">Department / Ministry</span>
-                <p className="modal-section-content">{selectedScheme.ministry}</p>
+                <span className="modal-section-title">
+                  {language === 'hi' ? 'विभाग / मंत्रालय' : language === 'kn' ? 'ಇಲಾಖೆ / ಸಚಿವಾಲಯ' : 'Department / Ministry'}
+                </span>
+                <p className="modal-section-content">{selectedScheme.ministry[language] || selectedScheme.ministry}</p>
               </div>
 
               <div className="modal-section">
-                <span className="modal-section-title">Category</span>
+                <span className="modal-section-title">
+                  {language === 'hi' ? 'सामाजिक श्रेणी' : language === 'kn' ? 'ಸಾಮಾಜಿಕ ವರ್ಗ' : 'Category'}
+                </span>
                 <span className="status-badge eligible" style={{alignSelf: 'flex-start', margin: '4px 0'}}>
-                  {selectedScheme.category}
+                  {selectedScheme.category[language] || selectedScheme.category}
                 </span>
               </div>
 
               <div className="modal-section">
-                <span className="modal-section-title">Description</span>
-                <p className="modal-section-content">{selectedScheme.description}</p>
+                <span className="modal-section-title">
+                  {language === 'hi' ? 'विवरण' : language === 'kn' ? 'ವಿವರಣೆ' : 'Description'}
+                </span>
+                <p className="modal-section-content">{selectedScheme.description[language] || selectedScheme.description}</p>
               </div>
 
               <div className="modal-section">
-                <span className="modal-section-title">Key Scheme Benefits</span>
+                <span className="modal-section-title">
+                  {language === 'hi' ? 'मुख्य योजना लाभ' : language === 'kn' ? 'ಪ್ರಮುಖ ಯೋಜನೆಯ ಪ್ರಯೋಜನಗಳು' : 'Key Scheme Benefits'}
+                </span>
                 <p className="modal-section-content" style={{fontWeight: '500', color: 'var(--text-primary)'}}>
-                  {selectedScheme.benefits}
+                  {selectedScheme.benefits[language] || selectedScheme.benefits}
                 </p>
               </div>
 
               <div className="modal-section">
-                <span className="modal-section-title">Eligibility Evaluation Analysis</span>
+                <span className="modal-section-title">
+                  {language === 'hi' ? 'पात्रता मूल्यांकन विश्लेषण' : language === 'kn' ? 'ಅರ್ಹತೆಯ ಮೌಲ್ಯಮಾಪನ ವಿಶ್ಲೇಷಣೆ' : 'Eligibility Evaluation Analysis'}
+                </span>
                 <ul className="reason-list">
                   {selectedScheme.reasons.map((reason, idx) => (
                     <li 
@@ -1020,7 +1164,9 @@ export default function App() {
             </div>
 
             <footer className="modal-footer">
-              <button className="btn btn-secondary" onClick={() => setSelectedScheme(null)}>Close</button>
+              <button className="btn btn-secondary" onClick={() => setSelectedScheme(null)}>
+                {language === 'hi' ? 'बंद करें' : language === 'kn' ? 'ಮುಚ್ಚಿ' : 'Close'}
+              </button>
               {selectedScheme.eligible && (
                 <a 
                   href={selectedScheme.applyUrl} 
@@ -1028,7 +1174,7 @@ export default function App() {
                   rel="noopener noreferrer" 
                   className="btn btn-primary"
                 >
-                  Apply Online ↗
+                  {language === 'hi' ? 'ऑनलाइन आवेदन करें ↗' : language === 'kn' ? 'ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ ↗' : 'Apply Online ↗'}
                 </a>
               )}
             </footer>
