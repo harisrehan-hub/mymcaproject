@@ -1,15 +1,17 @@
-$content = Get-Content src/data/schemes.js -Raw -Encoding UTF8
-$before = $content.Substring(0, $content.IndexOf('export const CHAT_QUESTIONS'))
+const fs = require('fs');
 
-$newQuestions = @'
-export const CHAT_QUESTIONS = [
+const originalContent = fs.readFileSync('src/data/schemes.js', 'utf8');
+const cutIndex = originalContent.indexOf('export const CHAT_QUESTIONS');
+const before = originalContent.substring(0, cutIndex);
+
+const newQuestions = `export const CHAT_QUESTIONS = [
   {
     id: "welcome",
     field: "welcome",
     text: {
-      en: "Namaste! Welcome to the India Schemes Eligibility Bot.\n\nI will help you check your eligibility for various central and state government schemes! Let's get started.",
-      hi: "नमस्ते! भारत योजना पात्रता बॉट में आपका स्वागत है।\n\nमैं आपको विभिन्न केंद्र और राज्य सरकार की योजनाओं के लिए अपनी पात्रता की जांच करने में मदद करूंगा! आइए शुरू करते हैं।",
-      kn: "ನಮಸ್ತೆ! ಭಾರತ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಅರ್ಹತಾ ಪರಿಶೀಲನಾ ಬಾಟ್‌ಗೆ ಸುಸ್ವಾಗತ.\n\nವಿವಿಧ ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಸರ್ಕಾರದ ಯೋಜನೆಗಳಿಗೆ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ! ಬನ್ನಿ ಪ್ರಾರಂಭಿಸೋಣ."
+      en: "Namaste! Welcome to the India Schemes Eligibility Bot.\\n\\nI will help you check your eligibility for various central and state government schemes! Let's get started.",
+      hi: "नमस्ते! भारत योजना पात्रता बॉट में आपका स्वागत है।\\n\\nमैं आपको विभिन्न केंद्र और राज्य सरकार की योजनाओं के लिए अपनी पात्रता की जांच करने में मदद करूंगा! आइए शुरू करते हैं।",
+      kn: "ನಮಸ್ತೆ! ಭಾರತ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಅರ್ಹತಾ ಪರಿಶೀಲನಾ ಬಾಟ್‌ಗೆ ಸುಸ್ವಾಗತ.\\n\\nವಿವಿಧ ಕೇಂದ್ರ ಮತ್ತು ರಾಜ್ಯ ಸರ್ಕಾರದ ಯೋಜನೆಗಳಿಗೆ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ! ಬನ್ನಿ ಪ್ರಾರಂಭಿಸೋಣ."
     },
     inputType: "buttons",
     options: {
@@ -22,9 +24,9 @@ export const CHAT_QUESTIONS = [
     id: "language",
     field: "language",
     text: {
-      en: "Please select your preferred language:\n\nकृपया अपनी पसंदीदा भाषा चुनें:\n\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
-      hi: "Please select your preferred language:\n\nकृपया अपनी पसंदीदा भाषा चुनें:\n\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
-      kn: "Please select your preferred language:\n\nकृपया अपनी पसंदीदा भाषा चुनें:\n\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:"
+      en: "Please select your preferred language:\\n\\nकृपया अपनी पसंदीदा भाषा चुनें:\\n\\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
+      hi: "Please select your preferred language:\\n\\nकृपया अपनी पसंदीदा भाषा चुनें:\\n\\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
+      kn: "Please select your preferred language:\\n\\nकृपया अपनी पसंदीदा भाषा चुनें:\\n\\nದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:"
     },
     inputType: "buttons",
     options: {
@@ -159,7 +161,7 @@ export const CHAT_QUESTIONS = [
       const num = Number(val);
       if (isNaN(num) || num <= 0 || num > 120) {
         if (lang === "hi") return "कृपया 1 और 120 के बीच एक वैध आयु दर्ज करें।";
-        if (lang === "kn") return "ದಯವಿಟ್ಟು 1 ರಿಂದ 120 ರ ನಡುವಿನ ಮಾನ್ಯ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ.";
+        if (lang === "kn") return "ದಯವಿಟ್ಟು 1 ರಿಂದ 120 ರ ನಡುವಿನ ಮಾನ್ಯ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ।";
         return "Please enter a valid age between 1 and 120.";
       }
       return null;
@@ -371,8 +373,8 @@ export const CHAT_QUESTIONS = [
     }
   }
 ];
-'@
+`;
 
-$newContent = $before + $newQuestions
-[System.IO.File]::WriteAllText((Resolve-Path src/data/schemes.js).Path, $newContent, [System.Text.Encoding]::UTF8)
-Write-Host "Done patching schemes.js with native script UTF8. File size: $($newContent.Length)"
+const updatedContent = before + newQuestions;
+fs.writeFileSync('src/data/schemes.js', updatedContent, 'utf8');
+console.log('Successfully updated schemes.js with UTF-8 native script!');
